@@ -10,4 +10,4 @@ Cada uno de estos objetos contienen propiedades como obtener coordenadas, distan
 
 Se recomienda entrar al directorio que incluye esta carpeta usando Processing para observar la generación del triángulo de Sierpinski
 
-!(Webp.net-gifmaker.gif)[gif-triangulo]
+![Webp.net-gifmaker.gif](gif-triangulo)
