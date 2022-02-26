@@ -35,8 +35,8 @@ def obtener_oraciones_nltk( texto:str )->list:
     """
     # import sys
     # if( not 'nltk' in sys.modules ):        
-    import nltk
-    return nltk.sent_tokenize(texto)
+    from nltk import sent_tokenize
+    return sent_tokenize(texto)
 
 def obtener_palabras( texto:str, unicas=True )->list:
     """Regresa una lista de palabras únicas encontradas en el texto
@@ -163,3 +163,71 @@ def obtener_frecuencias( palabras: list, ordenado_por_valor=False ) -> dict:
                             key=lambda item: item[1],
                             reverse=True) )
     return {unica: palabras.count( unica ) for unica in unicas}
+
+def corrector_ortografico( palabra:str,palabras_correctas:list, seleccionar_recomendador:int= 1, n_valores:int= 3, n_gramas:int= 4 )->list:
+    """Regresa una lista de lingud tres con recomendaciones a la palabra dado usando una distancia diferente. 
+
+    :param palabra: Parabra a corregir
+    :type palabra: str
+    :param seleccionar_recomendador: Tipo de corrector, si es 1 se usa la distancia de Jaccard, si es 2 se usa la distancia de Jaccar en los 4 gramas de dos palabras, si es 3 se usa la distancia de edicion en las dos palabras con trasnposiciones, defaults to 1
+    :type seleccionar_recomendador: int, optional
+    :return: Lista de recomendaciones ortograficas
+    :rtype: list
+    """
+    if( seleccionar_recomendador == 1 ):
+        lista_valores= [
+            ( distancia_jaccard( palabra, palabra_correcta ), palabra_correcta )
+                for palabra_correcta in palabras_correctas
+                if palabra[0].__eq__(palabra_correcta[0]) ]
+
+    elif( seleccionar_recomendador == 2):
+        from nltk.util import ngrams
+
+        lista_valores= [
+            ( distancia_jaccard( ngrams( palabra,n_gramas ), ngrams( palabra_correcta, n_gramas) ), 
+            palabra_correcta ) for palabra_correcta in palabras_correctas if palabra[0].__eq__(palabra_correcta[0]) ]
+
+    elif( seleccionar_recomendador == 3):
+        pass
+    else:
+        raise ValueError( f" Aún no se implementa ese recomendador, por favor introduce un numero entre 1 y 3 " )
+
+    lista_valores= sorted( lista_valores, key=lambda valor: valor[0] )
+
+    resultado= [ lista_valores[i][1] for i in range(n_valores) ]
+
+    return resultado
+
+def indice_jaccard( A: set, B:set ) -> float:
+    """Estadística utilizada para medir la similitud y diversidad de conjuntos de muestras. Se define como el tamaño de la intersección dividido por el tamaño de la unión de los conjuntos de muestras.
+
+    $$
+        J(A,B)= \frac{ |A ∩ B| }{ |A U B| }
+    $$
+
+    Para el caso de palabras, A es una palbra y B es otra palabra
+
+    :param A: Un conjunto 
+    :type A: set
+    :param B: Otro conjunto
+    :type B: set
+    :return: Indice de Jaccard
+    :rtype: float
+    """
+    if( not ( type( A ) is set ) or not ( type( B ) is set )): 
+        A= set(A); B= set(B)
+
+    return len( A.intersection( B ) ) / len( A.union( B ) )
+    
+def distancia_jaccard( A:set, B:set)->float:
+    """Mide la disimilitud entre conjuntos muestra
+
+    :param A: Un conjunto muestra
+    :type A: set
+    :param B: Otro conjunto muestra
+    :type B: set
+    :return: Distancia jacard entre los conjuntos
+    :rtype: float
+    """
+    return 1 - indice_jaccard( A, B )
+
