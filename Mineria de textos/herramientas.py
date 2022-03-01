@@ -50,7 +50,7 @@ def obtener_palabras( texto:str, unicas=True )->list:
         return sorted( set( texto.split() ) )
     return sorted( texto.split() )
 
-def obtener_palabras_filtradas( texto: str | list, remover_simbolos:list= [',','.',':',';','-','?','¿','¡','!','\'','–',chr(8220),chr(8221)], todo_minuscula:bool=True, unicas:bool=True)->list:
+def obtener_palabras_filtradas( palabras: str | list, remover_simbolos:list= [',','.',':',';','-','?','¿','¡','!','\'','–',chr(8220),chr(8221)], todo_minuscula:bool=True, unicas:bool=True)->list:
     """Procesa un texto retirando cada uno de los símbolos que se indican, además modifica las palabras para que todas esten en minúsculas se puede pedir que solo se obtengan palabras únicas
 
     :param texto: Texto a analizar, defaults to [',','.',':',';','-','?','¿','¡','!','\'','–',chr(8220),chr(8221)]
@@ -62,9 +62,9 @@ def obtener_palabras_filtradas( texto: str | list, remover_simbolos:list= [',','
     :return: Palabras después de ser procesadas
     :rtype: list
     """
-    if( type( texto ) is str):    
-        palabras= obtener_palabras( texto )
-    palabras= texto.copy()
+    if( type( palabras ) is str):    
+        palabras= obtener_palabras( palabras, unicas=unicas )
+    
 
     if( todo_minuscula ):
         palabras= [ palabra.lower() for palabra in palabras]
@@ -88,11 +88,12 @@ def obtener_promedio_palabras( oraciones: list )->float:
     :return: Número promedio de parlabras por oración
     :rtype: float
     """
-    promedio= 0
+    n_palabras= 0
     for oracion in oraciones:
-        promedio+= len( oracion )
+        for _ in oracion:
+            n_palabras+= 1
     
-    return promedio/len(oraciones)
+    return n_palbras/len(oraciones)
 
 def remover_simbolo( palabra:str, simbolo:str ) -> str:
     """Remueve el símbolo de una palabra, si la contiene sino regresa la palabra original
