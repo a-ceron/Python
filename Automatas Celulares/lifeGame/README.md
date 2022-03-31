@@ -21,7 +21,7 @@ Es importante que antes de usar el juego se revise que se tenga la libreria pyga
     git clone this.repo
     python main.py
 ```
-
+!(Captura de Pantalla 2022-03-30 a la(s) 19.15.47.png)[Captura de Pantalla 2022-03-30 a la(s) 19.15.47.png]
 
 
 # Referencias
