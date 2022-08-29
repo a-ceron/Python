@@ -17,12 +17,16 @@ class Caminante():
         self.centro = centro
         self.nombre = nombre
 
-    def mover(self, pasos:int, prob:list=[0.25, 0.25, 0.25, 0.25]):
+    def mover(self, pasos:int, prob:list=[0.25, 0.25, 0.25, 0.25])->list:
         direcciones = [0,1,2,3] #Difrerentes tipos de mocimiento, arriba, abajo, izquierda, derecha
         movimientos= random.choices(direcciones, prob, k=pasos) #Se elige una lista de movimientos aleatorios
         
+        camino = []
         for movimiento in movimientos:
+            camino.append((self.x, self.y))
             self.mueve(movimiento, 1)
+            
+        return camino
 
     def mueve(self, direccion:int, distancia:int):
         if direccion == 0:
