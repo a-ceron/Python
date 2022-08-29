@@ -35,3 +35,5 @@ DISTANCIA = 'euclidiana'
 :::image type="content" source="Resultados/Figure_2.png" alt-text="Caminos promedios":::
 
 1. ¿Cómo cambia la distancia esperada al origen en función de n? ¿Cómo cambia la distancia mínima y máxima al origen?
+![Distancias](./Resultados/Figure_3.png)
+![Valores](./Resultados/Figure_4.png)
