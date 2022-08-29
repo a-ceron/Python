@@ -1,4 +1,3 @@
-from cProfile import label
 import matplotlib.pyplot as plt
 from .Procesos import Caminante
 
@@ -9,7 +8,7 @@ def calcular_caminos(centro, n_caminantes, n_pasos, simplificado:bool=False):
 
     return caminantes if not simplificado else { caminante: caminantes[caminante][0] for caminante in caminantes } 
 
-def dibujar_caminantes(n_caminantes:int=1, n_pasos=100, centro=(0,0)):
+def dibujar_caminantes(n_caminantes:int=1, n_pasos=100, centro=(0,0),tipo):
 
     _, ax = plt.subplots(1,1)
 
@@ -28,10 +27,10 @@ def dibujar_caminantes(n_caminantes:int=1, n_pasos=100, centro=(0,0)):
 
     print(caminantes)
 
-    distancia_promedio= sum([caminante[0].distancia() for caminante in caminantes.values()])/len(caminantes)
+    distancia_promedio= sum([caminante[0].distancia(tipo=tipo) for caminante in caminantes.values()])/len(caminantes)
     print(f"Distancia promedio: {distancia_promedio}")
 
-def dibujar_distancia_promedio(n_repeticiones:int, n_caminantes, n_pasos, centro):
+def dibujar_distancia_promedio(n_repeticiones:int, n_caminantes, n_pasos, centro, tipo):
     distancias = []
     distancias_promedio = []
     for _ in range(n_repeticiones):
@@ -39,7 +38,7 @@ def dibujar_distancia_promedio(n_repeticiones:int, n_caminantes, n_pasos, centro
         caminantes = calcular_caminos(centro, n_caminantes, n_pasos, simplificado=True)
 
         # Calculo la distancia promedio de los caminantes después de haber realizado n_pasos
-        distancias.append(sum([caminante.distancia() for caminante in caminantes.values()])/len(caminantes))
+        distancias.append(sum([caminante.distancia(tipo=tipo) for caminante in caminantes.values()])/len(caminantes))
         distancias_promedio.append(sum(distancias)/len(distancias)) ## Distancia promedio de las distancias
 
 
