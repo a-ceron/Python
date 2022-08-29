@@ -1,12 +1,15 @@
 ## Caminante aleatorio
-from Scripts import dibujar_caminantes
+from Scripts import dibujar_caminantes, dibujar_distancia_promedio
+
+CENTRO = (0,0)
+N_CAMINANTES = 5
+N_PASOS = 100
+N_REPETICIONES = 100
 
 def main():    
-    caminantes = dibujar_caminantes(5,10)
-    distancia_promedio= sum([caminante.distancia() for caminante in caminantes.values()])/len(caminantes)
-    print(f"Distancia promedio: {distancia_promedio}")
+    dibujar_caminantes(N_CAMINANTES, N_PASOS, CENTRO)
+    dibujar_distancia_promedio(N_REPETICIONES, N_CAMINANTES, N_PASOS, CENTRO)
 
-    n_repeticiones= 100
 
 if __name__ == "__main__":
     main()
